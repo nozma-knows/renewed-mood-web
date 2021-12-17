@@ -7,34 +7,33 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import styles from "../styles/Login.module.css";
 
+// Form for loging in to Renewed Mood account.
+// Requires - Email and Password
 const LoginForm = ({ register, errors, isDirty, isValid }) => {
-  const router = useRouter();
+  const router = useRouter(); // Used to redirect to different page in web app
 
   return (
-    <div className={styles.login}>
-      <div className={styles.formInputContainer}>
-        <FormInput
-          className={styles.input}
-          placeholder="Email address"
-          register={register}
-          type="emailAddress"
-          error={errors.emailAddress}
-        />
-      </div>
-      <div className={styles.formInputContainer}>
-        <FormInput
-          className={styles.input}
-          placeholder="Password"
-          register={register}
-          type="password"
-          error={errors.password}
-        />
-        <div
-          className={styles.forgotPassword}
-          onClick={() => router.push("/forgotPassword")}
-        >
-          Forgot Password?
-        </div>
+    <>
+      <FormInput
+        className={styles.input}
+        placeholder="Email address"
+        register={register}
+        type="emailAddress"
+        error={errors.emailAddress}
+        showError={true}
+      />
+      <FormInput
+        className={styles.input}
+        placeholder="Password"
+        register={register}
+        type="password"
+        error={errors.password}
+      />
+      <div
+        className={styles.forgotPassword}
+        onClick={() => router.push("/forgotPassword")}
+      >
+        Forgot Password?
       </div>
       <div className={styles.buttons}>
         <input
@@ -56,14 +55,16 @@ const LoginForm = ({ register, errors, isDirty, isValid }) => {
           Sign Up
         </button>
       </div>
-    </div>
+    </>
   );
 };
 
+// Called when Sign In button is pressed
 const onSubmit = (data) => {
   console.log("Data: ", data);
 };
 
+// Validation Schema - Defines the requirements for the Sign In Form
 const validationSchema = Yup.object({
   password: Yup.string().required("required"),
   emailAddress: Yup.string().email("invalid email").required("required"),
@@ -82,17 +83,15 @@ export default function Login() {
       <Head>
         <title>Renewed Mood | Login</title>
       </Head>
-      <div>
-        <div className={styles.header}>Login</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <LoginForm
-            register={register}
-            errors={errors}
-            isDirty={isDirty}
-            isValid={isValid}
-          />
-        </form>
-      </div>
+      <div className={styles.header}>Login</div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <LoginForm
+          register={register}
+          errors={errors}
+          isDirty={isDirty}
+          isValid={isValid}
+        />
+      </form>
     </div>
   );
 }

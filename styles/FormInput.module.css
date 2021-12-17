@@ -1,14 +1,15 @@
 .container {
   display: flex;
   flex-direction: column;
-  /* margin-bottom: 30px; */
 }
 
 .error {
   display: flex;
+  align-items: center;
   padding-left: 25px;
-  margin-top: 10px;
-  height: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 20px;
   font-size: 20px;
   font-weight: bold;
   color: red;

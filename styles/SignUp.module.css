@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap");
-
 .container {
   display: flex;
   flex-direction: column;
@@ -17,11 +15,36 @@
   margin-bottom: 20px;
 }
 
-.input {
+.back {
   display: flex;
-  flex-direction: column;
-  width: 476px;
-  height: 60px;
+  position: absolute;
+  align-items: center;
+  top: 110px;
+  align-self: flex-start;
+  font-size: 20px;
+  color: white;
+}
+
+.backCarrot {
+  margin-right: 5px;
+  font-size: 30px;
+}
+
+.back:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}
+
+.formRow {
+  display: flex;
+  justify-content: space-between;
+  /* margin-bottom: 30px; */
+}
+
+.input,
+.squeezedInput {
+  display: flex;
   padding-left: 24px;
   border-radius: 15px;
   border: none;
@@ -29,21 +52,20 @@
   font-size: 20px;
 }
 
-.input::placeholder {
+.input {
+  flex-direction: column;
+  width: 476px;
+  height: 60px;
+}
+
+.squeezedInput {
+  width: 211px;
+  height: 60px;
+}
+
+.input::placeholder,
+.squeezedInput::placeholder {
   color: #b8b9cc;
-}
-
-.forgotPassword {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  margin-right: 25pt;
-}
-
-.forgotPassword:hover {
-  cursor: pointer;
-  text-decoration: underline;
-  color: blue;
 }
 
 .buttons {
