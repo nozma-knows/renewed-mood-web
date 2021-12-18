@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { Auth } from "aws-amplify";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import FormInput from "../components/forminput";
+import FormButton from "../components/formbutton";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import styles from "../styles/Login.module.css";
 
 // Form for loging in to Renewed Mood account.
 // Requires - Email and Password
-const LoginForm = ({ register, errors, isDirty, isValid }) => {
-  const router = useRouter(); // Used to redirect to different page in web app
-
+const LoginForm = ({ register, errors, isDirty, isValid, router }) => {
   return (
     <>
       <FormInput
@@ -36,17 +36,15 @@ const LoginForm = ({ register, errors, isDirty, isValid }) => {
         Forgot Password?
       </div>
       <div className={styles.buttons}>
-        <input
-          className={styles.button}
-          style={
-            !isDirty || !isValid
-              ? { marginRight: "15pt", opacity: "50%" }
-              : { marginRight: "15pt", cursor: "pointer" }
-          }
-          type="submit"
-          value="Sign In"
-          disabled={!isDirty || !isValid}
-        />
+        <div style={{ marginRight: "15px" }}>
+          <FormButton
+            className={styles.button}
+            type="submit"
+            value="Sign In"
+            isDirty={isDirty}
+            isValid={isValid}
+          />
+        </div>
         <button
           className={styles.button}
           style={{ marginLeft: "15px", cursor: "pointer" }}
@@ -59,8 +57,32 @@ const LoginForm = ({ register, errors, isDirty, isValid }) => {
   );
 };
 
+const handleSignIn = async (
+  { emailAddress, password },
+  setSignedIn,
+  user,
+  setUser,
+  router
+) => {
+  console.log("Email Address: ", emailAddress);
+  console.log("Password: ", password);
+  try {
+    await Auth.signIn(emailAddress, password);
+    setSignedIn(true);
+    router.push("/");
+  } catch (e) {
+    console.log(e);
+    alert(`Error signing in: ${e}`);
+  }
+  Auth.currentAuthenticatedUser()
+    .then((user) => setUser(user))
+    .catch((e) => console.log("Error finding user: ", e));
+  console.log(user);
+};
+
 // Called when Sign In button is pressed
-const onSubmit = (data) => {
+const onSubmit = (data, setSignedIn, user, setUser, router) => {
+  handleSignIn(data, setSignedIn, user, setUser, router);
   console.log("Data: ", data);
 };
 
@@ -71,6 +93,10 @@ const validationSchema = Yup.object({
 });
 
 export default function Login() {
+  const router = useRouter(); // Used to redirect to different page in web app
+  const [user, setUser] = useState(null);
+  const [signedIn, setSignedIn] = useState(false);
+
   const {
     register,
     formState: { errors, isDirty, isValid },
@@ -84,12 +110,17 @@ export default function Login() {
         <title>Renewed Mood | Login</title>
       </Head>
       <div className={styles.header}>Login</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={handleSubmit((data) =>
+          onSubmit(data, setSignedIn, user, setUser, router)
+        )}
+      >
         <LoginForm
           register={register}
           errors={errors}
           isDirty={isDirty}
           isValid={isValid}
+          router={router}
         />
       </form>
     </div>

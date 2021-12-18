@@ -1,0 +1,20 @@
+.back {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  top: 110px;
+  align-self: flex-start;
+  font-size: 20px;
+  color: white;
+}
+
+.backCarrot {
+  margin-right: 5px;
+  font-size: 30px;
+}
+
+.back:hover {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}
