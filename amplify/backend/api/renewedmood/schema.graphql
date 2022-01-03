@@ -1,0 +1,10 @@
+type JournalEntries @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  user: String!
+  timestamp: AWSTimestamp!
+  title: String
+  entry: String
+  starred: Boolean
+  shared: Boolean
+}
+ 
