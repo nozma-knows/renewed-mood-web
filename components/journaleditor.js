@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import JournalEditorProps from "./journaleditorprops";
 
-export default function JournalEditor({ setText }) {
+export default function JournalEditor({ setJournal, value }) {
   const updateText = (text) => {
-    setText(text);
+    setJournal((prevState) => ({
+      ...prevState,
+      entry: text,
+    }));
   };
 
   return (
@@ -16,6 +19,7 @@ export default function JournalEditor({ setText }) {
           ...JournalEditorProps,
         }}
         onEditorChange={(text) => updateText(text)}
+        value={value}
       />
     </>
   );

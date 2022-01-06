@@ -30,7 +30,7 @@ const JournalEditorProps = {
   forced_root_block: "",
   height: "100%",
   width: "100%",
-  content_style: "body { margin: 10 }",
+  content_style: "body { margin: 12 }",
 };
 
 export default JournalEditorProps;

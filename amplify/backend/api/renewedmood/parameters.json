@@ -4,7 +4,7 @@
   "DynamoDBEnableServerSideEncryption": false,
   "AuthCognitoUserPoolId": {
     "Fn::GetAtt": [
-      "authrenewedmood90f71639",
+      "arn:aws:lambda:us-east-1:617623427215:function:addUserToGroup-dev",
       "Outputs.UserPoolId"
     ]
   }
