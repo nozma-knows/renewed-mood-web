@@ -7,11 +7,19 @@ import {
   MdSearch,
   MdAddCircleOutline,
   MdFolderOpen,
-  MdStar,
-  MdIosShare,
-  MdSaveAlt,
-  MdDeleteForever,
+  // MdIosShare,
+  // MdSaveAlt,
+  // MdDeleteForever,
 } from "react-icons/md";
+import {
+  FaSearch,
+  FaPlusCircle,
+  FaFolder,
+  FaStar,
+  FaSave,
+  FaTrash,
+} from "react-icons/fa";
+// import { GrFormView, GrFormViewHide } from "react-icons/gr";
 import JournalEditor from "../components/journaleditor";
 import { Auth } from "aws-amplify";
 import { useRouter } from "next/router";
@@ -34,13 +42,6 @@ const handleSaveEntry = async (
   setEntries
 ) => {
   const currentTime = Date.now();
-  console.log("ID:", id);
-  console.log("Title: ", title);
-  console.log("Entry: ", entry);
-  console.log("Starred: ", starred);
-  console.log("Shared: ", shared);
-  console.log("User: ", user.username);
-  console.log("Timestamp: ", currentTime);
   if (id === "") {
     await DataStore.save(
       new JournalEntries({
@@ -143,79 +144,119 @@ export default function Journal() {
       </Head>
       <div className={styles.container}>
         <div className={styles.sideContainer}>
-          <div className={styles.sideIconsContainer}>
+          {/* <div className={styles.sideIconsContainer}>
             <MdSearch className={styles.sideIcon} />
             <MdAddCircleOutline
               className={styles.sideIcon}
               onClick={() => addEntry(setJournal)}
             />
             <MdFolderOpen className={styles.sideIcon} />
+          </div> */}
+          <div className="flex h-[3.25rem] justify-evenly items-center">
+            <div className="p-2 rounded-lg hover:bg-zinc-200 text-white hover:text-black hover:cursor-pointer">
+              <FaSearch className="text-2xl" />
+            </div>
+            <div className="p-2 rounded-lg hover:bg-zinc-200 text-white hover:text-black hover:cursor-pointer">
+              <FaPlusCircle
+                className="text-2xl"
+                onClick={() => addEntry(setJournal)}
+              />
+            </div>
+            <div className="p-2 rounded-lg hover:bg-zinc-200 text-white hover:text-black hover:cursor-pointer">
+              <FaFolder className="text-2xl" />
+            </div>
           </div>
           <div className={styles.entriesContainer}>
             {entries.map((entry, i) => (
-              <div className={styles.entryContainer} key={i}>
-                {/* <input className={styles.entryCheckBox} type="checkbox" /> */}
-                <div
-                  className={styles.entry}
-                  onClick={() => loadEntry(entry, journal, setJournal)}
-                >
-                  <div key={`title-${i}`}>{`${entry.title}`}</div>
-                  <div key={`date-${i}`}>{`${moment(entry.timestamp).format(
-                    "MMMM Do YYYY, h:mm"
-                  )} ${moment(entry.timestamp)
-                    .format("a")
-                    .toUpperCase()}`}</div>
+              <div
+                className="relative flex flex-col text-white bg-zinc-400 p-4 mx-2 my-1 rounded-xl hover:bg-zinc-500 hover:cursor-pointer"
+                onClick={() => loadEntry(entry, journal, setJournal)}
+                key={i}
+              >
+                <div className="flex-1 flex items-center justify-between">
+                  <div>{`${entry.title}`}</div>
                 </div>
+                <div className="flex-1">
+                  {`${moment(entry.timestamp).format(
+                    "MMMM Do YYYY, h:mm"
+                  )} ${moment(entry.timestamp).format("a").toUpperCase()}`}
+                </div>
+                {entry.starred && (
+                  <FaStar className="absolute top-0 right-0 m-2 text-2xl text-[gold]" />
+                )}
               </div>
             ))}
           </div>
         </div>
         <div className={styles.notepadContainer}>
           <div className={styles.notepadHeader}>
-            <input
-              className={styles.title}
-              onChange={(e) =>
-                setJournal((prevState) => ({
-                  ...prevState,
-                  title: e.target.value,
-                }))
-              }
-              value={journal.title}
-              placeholder="New Journal Entry"
-            />
-            <div className={styles.notepadHeaderButtons}>
-              <MdStar
-                className={styles.notepadHeaderIcon}
-                style={journal.starred && { color: "gold" }}
-                onClick={() =>
+            <div className="flex justify-center items-center px-2">
+              <div className="p-2 rounded-lg hover:bg-zinc-500 hover:text-white hover:cursor-pointer">
+                <FaStar
+                  className="text-2xl hover:cursor-pointer"
+                  style={journal.starred && { color: "gold" }}
+                  onClick={() =>
+                    setJournal((prevState) => ({
+                      ...prevState,
+                      starred: !journal.starred,
+                    }))
+                  }
+                />
+              </div>
+            </div>
+            <div className="flex flex-1 items-center pt-1">
+              <input
+                className={styles.title}
+                onChange={(e) =>
                   setJournal((prevState) => ({
                     ...prevState,
-                    starred: !journal.starred,
+                    title: e.target.value,
                   }))
                 }
+                value={journal.title}
+                placeholder="New Journal Entry"
               />
-              <MdIosShare
-                className={styles.notepadHeaderIcon}
-                style={journal.shared && { color: "gold" }}
-                onClick={() =>
-                  setJournal((prevState) => ({
-                    ...prevState,
-                    shared: !journal.shared,
-                  }))
-                }
-              />
-              <MdSaveAlt
-                className={styles.notepadHeaderIcon}
-                onClick={() =>
-                  handleSaveEntry(journal, setJournal, user, setEntries)
-                }
-              />
-              <MdDeleteForever
-                className={styles.notepadHeaderIcon}
-                onClick={() =>
-                  handleDeleteEntry(journal, setJournal, user, setEntries)
-                }
-              />
+            </div>
+            <div className="flex justify-center items-center px-4">
+              {/* {journal.shared ? (
+                <GrFormView
+                  className="text-4xl hover:cursor-pointer"
+                  style={journal.shared && { color: "gold" }}
+                  onClick={() =>
+                    setJournal((prevState) => ({
+                      ...prevState,
+                      shared: !journal.shared,
+                    }))
+                  }
+                />
+              ) : (
+                <GrFormViewHide
+                  className="text-4xl hover:cursor-pointer"
+                  style={journal.shared && { color: "gold" }}
+                  onClick={() =>
+                    setJournal((prevState) => ({
+                      ...prevState,
+                      shared: !journal.shared,
+                    }))
+                  }
+                />
+              )} */}
+              <div className="p-2 rounded-lg hover:bg-zinc-500 hover:text-white hover:cursor-pointer">
+                <FaSave
+                  className="text-2xl"
+                  onClick={() =>
+                    handleSaveEntry(journal, setJournal, user, setEntries)
+                  }
+                />
+              </div>
+              <div className="p-2 rounded-lg hover:bg-zinc-500 hover:text-white hover:cursor-pointer">
+                <FaTrash
+                  className="text-2xl"
+                  onClick={() =>
+                    handleDeleteEntry(journal, setJournal, user, setEntries)
+                  }
+                />
+              </div>
             </div>
           </div>
           <JournalEditor setJournal={setJournal} value={journal.entry} />

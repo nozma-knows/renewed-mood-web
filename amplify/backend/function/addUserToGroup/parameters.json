@@ -1,0 +1,12 @@
+{
+  "AuthCognitoUserPoolArn": {
+    "Fn::Sub": [
+      "arn:aws:cognito-idp:${AWS::Region}:${AWS::AccountId}:userpool/${id}",
+      {
+        "id": {
+          "Fn::GetAtt": ["authrenewedmood90f71639", "Outputs.UserPoolId"]
+        }
+      }
+    ]
+  }
+}

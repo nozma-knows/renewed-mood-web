@@ -1,0 +1,5 @@
+{
+  "userPoolId": "the-user-pool-id",
+  "userName": "user1",
+  "userPoolGroupName": "Patient"
+}

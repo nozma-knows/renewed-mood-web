@@ -49,7 +49,6 @@
 .entriesContainer {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
   overflow-y: scroll;
 }
 
@@ -103,7 +102,6 @@
   border: none;
   font-family: "Comfortaa";
   font-size: 20px;
-  padding-left: 12px;
 }
 
 .title:focus {

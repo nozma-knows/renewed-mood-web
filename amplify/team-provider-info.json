@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "renewedmood90f71639": {}
+      },
+      "function": {
+        "addUserToGroup": {
+          "deploymentBucketName": "amplify-renewedmood-dev-143148-deployment",
+          "s3Key": "amplify-builds/addUserToGroup-782b534a637430556b56-build.zip"
+        }
       }
     }
   }
