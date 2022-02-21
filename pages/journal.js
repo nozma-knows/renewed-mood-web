@@ -83,9 +83,11 @@ const handleDeleteEntry = async ({ id }, setJournal, user, setEntries) => {
   const entryToDelete = await DataStore.query(JournalEntries, (item) =>
     item.id("eq", id)
   );
-  DataStore.delete(entryToDelete[0]);
-  setJournal(initialJournalState);
-  fetchEntries(user, setEntries);
+  if (entryToDelete.length) {
+    DataStore.delete(entryToDelete[0]);
+    setJournal(initialJournalState);
+    fetchEntries(user, setEntries);
+  }
 };
 
 const loadEntry = async (
